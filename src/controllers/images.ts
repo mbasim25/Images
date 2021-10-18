@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { v4 } from "uuid";
-import { process } from "../utils";
+import { process, remove } from "../utils";
 import { pool } from "../../db";
 import { QueryResult } from "pg";
 import { NotFoundError } from "../errors";
@@ -55,6 +55,30 @@ export const create = async (req: Request, res: Response) => {
     );
 
     return res.status(201).json({ id, cover, thumb });
+  } catch (e) {
+    return res.status(400).json(e);
+  }
+};
+
+// Delete an image
+export const destroy = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    // Check that the image exists
+    const image = await pool.query(`SELECT * FROM images WHERE id = $1;`, [id]);
+
+    if (!image.rows[0]) {
+      throw new NotFoundError();
+    }
+
+    // Remove the images
+    await remove(image);
+
+    // Delete from DB
+    await pool.query(`DELETE FROM images WHERE id = $1;`, [id]);
+
+    return res.status(204).json();
   } catch (e) {
     return res.status(400).json(e);
   }

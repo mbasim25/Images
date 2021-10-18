@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import morgan from "morgan";
+import "express-async-errors";
 import { PORT } from "./utils/secrets";
 import router from "./routers/images";
 import { errorHandler } from "./middlewares";

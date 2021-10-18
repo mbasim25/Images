@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import { PORT } from "./utils/secrets";
 import router from "./routers/images";
+import { errorHandler } from "./middlewares";
 
 // Initialize the application
 const app: Application = express();
@@ -19,6 +20,9 @@ app.use(logger);
 
 // Router
 app.use(router);
+
+// Error handler
+app.use(errorHandler);
 
 // Start the server
 app.listen(PORT, () => {

@@ -1,6 +1,7 @@
 import { Request } from "express";
 import sharp from "sharp";
 import fs from "fs";
+import { PORT, BASE_URL } from "./secrets";
 
 export const process = async (req: Request, id: any) => {
   // check if the folder exists
@@ -16,9 +17,8 @@ export const process = async (req: Request, id: any) => {
   const coverName = `${id}-cover-${name}`;
 
   // Image urls
-  const base = `http://localhost:8080`;
-  const thumb = `${base}/${thumbName}`;
-  const cover = `${base}/${coverName}`;
+  const thumb = `${BASE_URL}:${PORT}/${thumbName}`;
+  const cover = `${BASE_URL}:${PORT}/${coverName}`;
 
   try {
     // Resize the images

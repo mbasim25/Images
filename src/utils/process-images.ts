@@ -17,8 +17,8 @@ export const process = async (req: Request, id: any) => {
   const coverName = `${id}-cover-${name}`;
 
   // Image urls
-  const thumb = `${BASE_URL}:${PORT}/${thumbName}`;
-  const cover = `${BASE_URL}:${PORT}/${coverName}`;
+  const thumb = `${BASE_URL}${thumbName}`;
+  const cover = `${BASE_URL}${coverName}`;
 
   try {
     // Resize the images

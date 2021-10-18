@@ -23,12 +23,12 @@ export const process = async (req: Request, id: any) => {
   try {
     // Resize the images
 
-    await sharp(req.file?.buffer)
+    await sharp(req.file?.path)
       .resize({ width: 285, height: 380 })
       .toFile(`./storage/${thumbName}`);
 
     // Fill, Contain or Inside options may be added to cover images to get the desired results
-    await sharp(req.file?.buffer)
+    await sharp(req.file?.path)
       .resize({ width: 820, height: 312 })
       .toFile(`./storage/${coverName}`);
 

@@ -10,4 +10,7 @@ router.get("/", images.list);
 // Upload images
 router.post("/create", upload.single("image"), images.create);
 
+// Get an image by id
+router.get("/:id", images.retrieve);
+
 export default router;

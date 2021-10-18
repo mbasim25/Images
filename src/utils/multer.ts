@@ -5,6 +5,7 @@ const storage = multer.diskStorage({});
 // Multer storage and validation for image type
 export const upload = multer({
   storage,
+  // File type
   fileFilter: (req, file, cb) => {
     if (
       file.mimetype == "image/png" ||
@@ -17,4 +18,6 @@ export const upload = multer({
       return cb(new Error("Please enter a supported image type"));
     }
   },
+  // File size
+  limits: { fileSize: 2 * 1024 * 1024 },
 });

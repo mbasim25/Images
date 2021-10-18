@@ -5,8 +5,6 @@ import { secrets } from "../src/utils/";
 
 const connectionString = secrets.DB_URL;
 
-console.log(connectionString);
-
 const pool = new Pool({
   connectionString,
 });

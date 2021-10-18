@@ -2,7 +2,6 @@ import fs from "fs";
 
 export const remove = async (data: any) => {
   try {
-    console.log(data);
     // Get the data
     const { thumbnail, cover } = data.rows[0];
 

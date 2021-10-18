@@ -7,6 +7,7 @@ import { QueryResult } from "pg";
 // Get all images
 export const list = async (req: Request, res: Response) => {
   try {
+    // Pagination
     const limit: any = req.query.limit || 20;
     const page: any = req.query.page || 1;
     const offset = (page - 1) * limit;
@@ -16,6 +17,7 @@ export const list = async (req: Request, res: Response) => {
       [offset, limit]
     );
 
+    // Return images urls
     for (const row of results.rows) {
       await ImageHandler.urlify(row);
     }
@@ -64,6 +66,7 @@ export const create = async (req: Request, res: Response) => {
       [id, cover, thumbnail]
     );
 
+    // Return images urls
     const images = await ImageHandler.urlify({ id, cover, thumbnail });
 
     return res.status(201).json(images);
@@ -103,6 +106,7 @@ export const update = async (req: Request, res: Response) => {
       [cover, thumbnail, id]
     );
 
+    // Return images urls
     const images = await ImageHandler.urlify(results.rows[0]);
 
     return res.status(200).json(images);

@@ -1,3 +1,4 @@
 import * as secrets from "./secrets";
+import { upload } from "./multer";
 
-export { secrets };
+export { secrets, upload };

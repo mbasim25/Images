@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 import { process } from "../utils";
 import { pool } from "../../db";
 import { QueryResult } from "pg";
+import { NotFoundError } from "../errors";
 
 // Get all images
 export const list = async (req: Request, res: Response) => {
@@ -12,6 +13,22 @@ export const list = async (req: Request, res: Response) => {
     const images = results.rows;
 
     return res.status(200).json(images);
+  } catch (e) {
+    return res.status(400).json(e);
+  }
+};
+
+// Get a single image by id
+export const retrieve = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const image = await pool.query(`SELECT * FROM images WHERE id = $1;`, [id]);
+
+    if (!image.rows[0]) {
+      throw new NotFoundError();
+    }
+
+    return res.status(200).json(image.rows[0]);
   } catch (e) {
     return res.status(400).json(e);
   }

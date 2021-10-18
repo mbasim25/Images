@@ -15,6 +15,9 @@ router.post("/create", upload.single("image"), images.create);
 // Get an image by id
 router.get("/:id", validateId, validateRequest, images.retrieve);
 
+// Update images
+router.patch("/:id", images.update);
+
 // Delete images
 router.delete("/:id", validateId, validateRequest, images.destroy);
 

@@ -1,7 +1,7 @@
 import { Request } from "express";
 import sharp from "sharp";
 import fs from "fs";
-import { PORT, BASE_URL } from "./secrets";
+import { BASE_URL } from "./secrets";
 
 export const process = async (req: Request, id: any) => {
   // check if the folder exists
@@ -27,6 +27,7 @@ export const process = async (req: Request, id: any) => {
       .resize({ width: 285, height: 380 })
       .toFile(`./storage/${thumbName}`);
 
+    // Fill, Contain or Inside options may be added to cover images to give the desired results
     await sharp(req.file?.buffer)
       .resize({ width: 820, height: 312 })
       .toFile(`./storage/${coverName}`);

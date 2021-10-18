@@ -3,8 +3,6 @@ import { v4 } from "uuid";
 import { process, remove } from "../utils";
 import { pool } from "../../db";
 import { QueryResult } from "pg";
-import { NotFoundError } from "../errors";
-
 // Get all images
 export const list = async (req: Request, res: Response) => {
   try {
@@ -25,7 +23,7 @@ export const retrieve = async (req: Request, res: Response) => {
     const image = await pool.query(`SELECT * FROM images WHERE id = $1;`, [id]);
 
     if (!image.rows[0]) {
-      throw new NotFoundError();
+      return res.status(404).json("Image not found");
     }
 
     return res.status(200).json(image.rows[0]);
@@ -75,7 +73,7 @@ export const update = async (req: Request, res: Response) => {
     ]);
 
     if (!unique.rows[0]) {
-      throw new NotFoundError();
+      return res.status(404).json("Image not found");
     }
 
     // Remove the old images
@@ -106,7 +104,7 @@ export const destroy = async (req: Request, res: Response) => {
     const image = await pool.query(`SELECT * FROM images WHERE id = $1;`, [id]);
 
     if (!image.rows[0]) {
-      throw new NotFoundError();
+      return res.status(404).json("Image not found");
     }
 
     // Remove the images

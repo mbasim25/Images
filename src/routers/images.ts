@@ -1,8 +1,9 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { images } from "../controllers/";
 import { upload } from "../utils/";
 import { validateRequest } from "../middlewares";
 import { validateId } from "../validators/images";
+import { NotFoundError } from "../errors";
 
 const router = Router();
 
@@ -26,5 +27,10 @@ router.patch(
 
 // Delete images
 router.delete("/:id", validateId, validateRequest, images.destroy);
+
+// Returns a 404 for not found routes
+router.all("*", async (req: Request, res: Response) => {
+  throw new NotFoundError();
+});
 
 export default router;

@@ -86,7 +86,7 @@ export const update = async (req: Request, res: Response) => {
 
     // Save to DB
     const results = await pool.query(
-      `UPDATE images SET cover = $1, thumbnail = $2 Where id = $3 RETURNING * ;`,
+      `UPDATE images SET cover = $1, thumbnail = $2 WHERE id = $3 RETURNING * ;`,
       [cover, thumb, id]
     );
 

@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Static files
 app.use(express.static("public"));
+app.use(express.static("storage"));
 
 // Logging
 const logger = morgan("tiny");

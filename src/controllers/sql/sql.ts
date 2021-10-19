@@ -1,5 +1,8 @@
 // Sql queries to be passed into the controllers
 
+// all of the queries do what the name suggests
+// + concat adds the base url to the image names
+
 export const list = `SELECT *,
 CONCAT($1 :: VARCHAR,cover) AS cover,
 CONCAT($1,thumbnail) AS thumbnail
@@ -21,3 +24,6 @@ CONCAT($4 :: VARCHAR,cover) AS cover,
 CONCAT($4,thumbnail) AS thumbnail;`;
 
 export const destroy = `DELETE FROM images WHERE id = $1;`;
+
+// Checks if the image exists
+export const check = `SELECT * FROM images WHERE id = $1;`;

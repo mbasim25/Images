@@ -75,6 +75,7 @@ export const create = async (req: Request, res: Response) => {
 
     return res.status(201).json(image);
   } catch (e) {
+    console.log(e);
     return res.status(400).json(e);
   }
 };
@@ -89,7 +90,7 @@ export const update = async (req: Request, res: Response) => {
     }
 
     // Check that the image exists
-    const { rows } = await pool.query(sql.retrieve, [id]);
+    const { rows } = await pool.query(sql.check, [id]);
 
     if (!rows[0]) {
       return res.status(404).json("Image not found");
@@ -99,7 +100,7 @@ export const update = async (req: Request, res: Response) => {
     await ImageHandler.remove(rows[0]);
 
     // Process the new images
-    const { cover, thumbnail } = await ImageHandler.process(req, id)!;
+    const { cover, thumbnail } = await ImageHandler.process(req, id);
 
     // Update, Save to DB, Return results after concatenation
     const results: QueryResult<Image> = await pool.query(sql.update, [
@@ -123,7 +124,7 @@ export const destroy = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     // Check that the image exists
-    const { rows } = await pool.query(sql.retrieve, [id]);
+    const { rows } = await pool.query(sql.check, [id]);
 
     if (!rows[0]) {
       return res.status(404).json("Image not found");

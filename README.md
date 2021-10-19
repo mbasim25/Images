@@ -17,7 +17,6 @@ A small service that processes images into different sizes and performs extra CR
 # How to run the app
 - Start by downloading or cloning the project. 
 - Add the env variables as shown in the .env_example. 
-- Make sure to have ssl allowed on the db (alternatively comment the ssl option located in db/db.ts).
 - Run **npm i** to install all the necessary dependencies.
 
 # Commands 

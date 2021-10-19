@@ -82,4 +82,16 @@ describe("Test Images CRUD", () => {
     expect(res.body).toHaveProperty("thumbnail");
     expect(res.body).toHaveProperty("id");
   });
+
+  test("Test Delete Endpoint", async () => {
+    // Get the id of an image
+    const { id } = await retrieve();
+
+    // Delete
+    res = await request.delete(`/${id}`);
+    expect(res.status).toBe(204);
+
+    const result = await request.get(`/${id}`);
+    expect(result.status).toEqual(404);
+  });
 });

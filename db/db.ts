@@ -7,6 +7,9 @@ const connectionString = secrets.DATABASE_URL;
 
 const pool = new Pool({
   connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 pool.on("connect", () => {

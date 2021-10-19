@@ -21,13 +21,12 @@ class ImageHandler {
     try {
       // Resize Thumbnail image
       await sharp(req.file?.path)
-        .resize({ width: 285, height: 380 })
+        .resize({ width: 285, height: 380, fit: "fill" })
         .toFile(`./storage/${thumbnail}`);
 
       // Cover image
-      // Fill, Contain or Inside, options for covers
       await sharp(req.file?.path)
-        .resize({ width: 820, height: 312 })
+        .resize({ width: 820, height: 312, fit: "fill", position: "entropy" })
         .toFile(`./storage/${cover}`);
 
       return { thumbnail, cover };

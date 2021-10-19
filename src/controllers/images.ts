@@ -11,13 +11,13 @@ import { sql } from ".";
 export const list = async (req: Request, res: Response) => {
   try {
     // Pagination
-    const query = await paginate(req);
+    const { offset, limit } = await paginate(req);
 
     // Get all images
     const results: QueryResult<Image> = await pool.query(sql.list, [
       BASE_URL,
-      query.offset,
-      query.limit,
+      offset,
+      limit,
     ]);
 
     const images = results.rows;

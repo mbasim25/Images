@@ -32,4 +32,14 @@ describe("Test Images CRUD", () => {
     expect(res.body).toHaveProperty("thumbnail");
     expect(res.body.cover).toContain(".png");
   });
+
+  test("Test List Endpoint", async () => {
+    // Get all images
+    res = await request.get("/");
+
+    expect(res.status).toBe(200);
+    expect(res.body[0]).toHaveProperty("id");
+    expect(res.body[0]).toHaveProperty("cover");
+    expect(res.body[0]).toHaveProperty("thumbnail");
+  });
 });

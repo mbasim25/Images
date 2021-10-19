@@ -5,7 +5,6 @@
     "node": "14.15.x",
     "npm": "7.19.x"
   },
-  "main": "app.ts",
   "scripts": {
     "start": "node dist/app.js",
     "build": "tsc",

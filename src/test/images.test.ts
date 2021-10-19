@@ -53,4 +53,19 @@ describe("Test Images CRUD", () => {
     expect(res.body[0]).toHaveProperty("cover");
     expect(res.body[0]).toHaveProperty("thumbnail");
   });
+
+  test("Test Create Endpoint.", async () => {
+    const pic = await testImage();
+
+    // Create a new image
+    res = await request.post("/create").attach("image", pic, "2.png");
+
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty("cover");
+    expect(res.body).toHaveProperty("thumbnail");
+
+    // Fetch the image
+    const result = await retrieve(res.body.id);
+    expect(result.id).toEqual(res.body.id);
+  });
 });

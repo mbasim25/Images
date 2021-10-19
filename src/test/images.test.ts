@@ -7,6 +7,17 @@ describe("Test Images CRUD", () => {
   const request = baseRequest(app);
   let res: Response;
 
+  // Fetch images or image
+  const retrieve = async (id?: string) => {
+    res = await request.get(id ? `/${id}` : "/");
+
+    const value = id ? res.body : res.body[0];
+
+    expect(res.status).toEqual(200);
+    expect(value).toHaveProperty("id");
+    return value;
+  };
+
   beforeEach(async () => {
     const pic = await testImage();
 

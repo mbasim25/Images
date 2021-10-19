@@ -3,7 +3,7 @@ import { secrets } from "../src/utils/";
 
 // DB connection
 
-const connectionString = secrets.DB_URL;
+const connectionString = secrets.DATABASE_URL;
 
 const pool = new Pool({
   connectionString,

@@ -10,7 +10,7 @@
     "start": "node dist/app.js",
     "build": "tsc",
     "deploy": "git add . && git commit -m Heroku && git push heroku master",
-    "prestart": "node dist/db/createTables.ts",
+    "prestart": "node dist/db/createTables.js",
     "dev": "nodemon src/app.ts",
     "createDB": "npx ts-node db/createTables.ts",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""

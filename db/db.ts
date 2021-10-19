@@ -1,18 +1,25 @@
 import { Pool } from "pg";
 import { secrets } from "../src/utils/";
 
-// DB connection
+// DB connection variables
 const connectionString = secrets.DATABASE_URL;
+const ssl = secrets.DATABASE_SSL;
 
-console.log(secrets.DATABASE_SSL === "true");
-
-const pool = new Pool({
+// Options to be passed to the pool
+const options = {
   connectionString,
-  ssl: secrets.DATABASE_SSL === "true",
-});
+  ssl: { rejectUnauthorized: false },
+};
 
-pool.on("connect", () => {
-  console.log("Connected");
-});
+// Conditional ssl option
+if (ssl !== "true") {
+  delete options.ssl;
+}
+
+console.log(options);
+
+const pool = new Pool({ ...options }).on("connect", () =>
+  console.log("Connected")
+);
 
 export default pool;

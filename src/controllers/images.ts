@@ -113,7 +113,6 @@ export const update = async (req: Request, res: Response) => {
 
     return res.status(200).json(image);
   } catch (e) {
-    console.log(e);
     return res.status(400).json(e);
   }
 };

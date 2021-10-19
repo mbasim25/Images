@@ -8,7 +8,6 @@ dotenv.config({
 
 const PORT = process.env.PORT || 8080;
 const DB_URL = process.env.DB_URL;
-const BASE = process.env.BASE;
-const BASE_URL = BASE! + ":" + PORT + "/";
+const BASE_URL = process.env.BASE_URL;
 
 export { PORT, DB_URL, BASE_URL };

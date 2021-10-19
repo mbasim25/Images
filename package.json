@@ -12,7 +12,8 @@
     "deploy": "git add . && git commit -m Heroku && git push heroku master",
     "postinstall": "node dist/db/createTables.ts",
     "dev": "nodemon src/app.ts",
-    "createDB": "npx ts-node db/createTables.ts"
+    "createDB": "npx ts-node db/createTables.ts",
+    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""
   },
   "author": "",
   "license": "ISC",

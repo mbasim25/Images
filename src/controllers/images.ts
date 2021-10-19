@@ -41,7 +41,7 @@ export const retrieve = async (req: Request, res: Response) => {
       `SELECT *,
        CONCAT($1 :: VARCHAR,cover) AS cover,
        CONCAT($1,thumbnail) AS thumbnail
-       FROM images WHERE id = $2`,
+       FROM images WHERE id = $2;`,
       [BASE_URL, id]
     );
 
@@ -116,7 +116,7 @@ export const update = async (req: Request, res: Response) => {
       `UPDATE images SET cover = $1, thumbnail = $2 
        WHERE id = $3 RETURNING *, 
        CONCAT($4 :: VARCHAR,cover) AS cover,
-       CONCAT($4,thumbnail) AS thumbnail; ;`,
+       CONCAT($4,thumbnail) AS thumbnail;`,
       [cover, thumbnail, id, BASE_URL]
     );
 

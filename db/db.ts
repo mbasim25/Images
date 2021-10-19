@@ -16,8 +16,6 @@ if (ssl !== "true") {
   delete options.ssl;
 }
 
-console.log(options);
-
 const pool = new Pool({ ...options }).on("connect", () =>
   console.log("Connected")
 );

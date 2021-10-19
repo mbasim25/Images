@@ -10,11 +10,11 @@ const router = Router();
 // Get all images
 router.get("/", validate.pagination, validateRequest, images.list);
 
-// Upload images
-router.post("/create", upload.single("image"), images.create);
-
 // Get an image by id
 router.get("/:id", validate.id, validateRequest, images.retrieve);
+
+// Create images
+router.post("/create", upload.single("image"), images.create);
 
 // Update images
 router.patch(

@@ -24,7 +24,6 @@ export const list = async (req: Request, res: Response) => {
 
     return res.status(200).json(images);
   } catch (e) {
-    console.log(e);
     return res.status(400).json(e);
   }
 };
@@ -46,7 +45,6 @@ export const retrieve = async (req: Request, res: Response) => {
 
     return res.status(200).json(image.rows[0]);
   } catch (e) {
-    console.log(e);
     return res.status(400).json(e);
   }
 };

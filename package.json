@@ -11,7 +11,7 @@
     "deploy": "git add . && git commit -m Heroku && git push heroku master",
     "prestart": "node dist/db/migrate.js",
     "dev": "nodemon src/app.ts",
-    "createDB": "npx ts-node db/migrate.ts",
+    "migrate": "npx ts-node db/migrate.ts",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\""
   },
   "author": "",

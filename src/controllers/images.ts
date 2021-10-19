@@ -1,28 +1,24 @@
 import { Request, Response } from "express";
 import { v4 } from "uuid";
-import { ImageHandler } from "../utils";
+import { ImageHandler, paginate } from "../utils";
 import { pool } from "../../db";
 import { QueryResult } from "pg";
 import { BASE_URL } from "../utils/secrets";
-import { Image, Query } from "../types";
+import { Image } from "../types";
+import { sql } from ".";
 
 // Get all images
 export const list = async (req: Request, res: Response) => {
   try {
     // Pagination
-    const query: Query = req.query;
-    const limit = query.limit || 20;
-    const page = query.page || 1;
-    const offset = (page - 1) * limit;
+    const query = await paginate(req);
 
-    // Get all images and manipulate cover and thumbnail
-    const results: QueryResult<Image> = await pool.query(
-      `SELECT *,
-       CONCAT($1 :: VARCHAR,cover) AS cover,
-       CONCAT($1,thumbnail) AS thumbnail
-       FROM images OFFSET $2 LIMIT $3;`,
-      [BASE_URL, offset, limit]
-    );
+    // Get all images
+    const results: QueryResult<Image> = await pool.query(sql.list, [
+      BASE_URL,
+      query.offset,
+      query.limit,
+    ]);
 
     const images = results.rows;
 
@@ -37,13 +33,12 @@ export const list = async (req: Request, res: Response) => {
 export const retrieve = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const image: QueryResult<Image> = await pool.query(
-      `SELECT *,
-       CONCAT($1 :: VARCHAR,cover) AS cover,
-       CONCAT($1,thumbnail) AS thumbnail
-       FROM images WHERE id = $2;`,
-      [BASE_URL, id]
-    );
+
+    // Get the image
+    const image: QueryResult<Image> = await pool.query(sql.retrieve, [
+      BASE_URL,
+      id,
+    ]);
 
     if (!image.rows[0]) {
       return res.status(404).json("Image not found");
@@ -70,13 +65,12 @@ export const create = async (req: Request, res: Response) => {
     const { cover, thumbnail } = processed!;
 
     // Save to DB and return the values after concatenation
-    const results: QueryResult<Image> = await pool.query(
-      `INSERT INTO images(id, cover, thumbnail) 
-       VALUES ($1, $2, $3) RETURNING *, 
-       CONCAT($4 :: VARCHAR,cover) AS cover,
-       CONCAT($4,thumbnail) AS thumbnail;`,
-      [id, cover, thumbnail, BASE_URL]
-    );
+    const results: QueryResult<Image> = await pool.query(sql.create, [
+      id,
+      cover,
+      thumbnail,
+      BASE_URL,
+    ]);
 
     const image = results.rows[0];
 
@@ -96,9 +90,7 @@ export const update = async (req: Request, res: Response) => {
     }
 
     // Check that the image exists
-    const { rows } = await pool.query(`SELECT * FROM images WHERE id = $1;`, [
-      id,
-    ]);
+    const { rows } = await pool.query(sql.retrieve, [id]);
 
     if (!rows[0]) {
       return res.status(404).json("Image not found");
@@ -108,17 +100,15 @@ export const update = async (req: Request, res: Response) => {
     await ImageHandler.remove(rows[0]);
 
     // Process the new images
-    const processed = await ImageHandler.process(req, id);
-    const { cover, thumbnail } = processed!;
+    const { cover, thumbnail } = await ImageHandler.process(req, id)!;
 
     // Update, Save to DB, Return results after concatenation
-    const results: QueryResult<Image> = await pool.query(
-      `UPDATE images SET cover = $1, thumbnail = $2 
-       WHERE id = $3 RETURNING *, 
-       CONCAT($4 :: VARCHAR,cover) AS cover,
-       CONCAT($4,thumbnail) AS thumbnail;`,
-      [cover, thumbnail, id, BASE_URL]
-    );
+    const results: QueryResult<Image> = await pool.query(sql.update, [
+      cover,
+      thumbnail,
+      id,
+      BASE_URL,
+    ]);
 
     const image = results.rows[0];
 
@@ -134,9 +124,7 @@ export const destroy = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     // Check that the image exists
-    const { rows } = await pool.query(`SELECT * FROM images WHERE id = $1;`, [
-      id,
-    ]);
+    const { rows } = await pool.query(sql.retrieve, [id]);
 
     if (!rows[0]) {
       return res.status(404).json("Image not found");
@@ -146,7 +134,7 @@ export const destroy = async (req: Request, res: Response) => {
     await ImageHandler.remove(rows[0]);
 
     // Delete from DB
-    await pool.query(`DELETE FROM images WHERE id = $1;`, [id]);
+    await pool.query(sql.destroy, [id]);
 
     return res.status(204).json();
   } catch (e) {

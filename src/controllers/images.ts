@@ -34,16 +34,18 @@ export const retrieve = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     // Get the image
-    const image: QueryResult<Image> = await pool.query(sql.retrieve, [
+    const results: QueryResult<Image> = await pool.query(sql.retrieve, [
       BASE_URL,
       id,
     ]);
 
-    if (!image.rows[0]) {
+    const image = results.rows[0];
+
+    if (!image) {
       return res.status(404).json("Image not found");
     }
 
-    return res.status(200).json(image.rows[0]);
+    return res.status(200).json(image);
   } catch (e) {
     return res.status(400).json(e);
   }
@@ -59,8 +61,7 @@ export const create = async (req: Request, res: Response) => {
     }
 
     // Process the images
-    const processed = await ImageHandler.process(req, id);
-    const { cover, thumbnail } = processed!;
+    const { cover, thumbnail } = await ImageHandler.process(req, id)!;
 
     // Save to DB and return the values after concatenation
     const results: QueryResult<Image> = await pool.query(sql.create, [

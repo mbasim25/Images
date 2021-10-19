@@ -15,7 +15,7 @@ A small service that processes images into different sizes and performs extra CR
 - [Heroku]
 
 # How to run the app
-- Start by downloading or cloning the code. 
+- Start by downloading or cloning the project. 
 - Add the env variables as shown in the .env_example. 
 - Make sure to have ssl allowed on the db (alternatively comment the ssl option located in db/db.ts).
 - Run **npm i** to install all the necessary dependencies.
@@ -27,7 +27,7 @@ a list of all the available commands
 - **npm run migrate** : creates the images table.
 - **npm start** : start the server after compiling to js.
 
-**PS**: the migrate command also removes all rows from the db this was added to avoid any issues that stem from saving images on heroku.
+**PS**: the migrate command also removes all rows from the db this was added to avoid any issues that stems from saving images on heroku.
 
 [Postman Collection]: https://www.postman.com/gold-crater-470694/workspace/images/documentation/15875859-dece5308-d456-4f0d-b4ed-043c44acd066
 

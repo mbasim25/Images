@@ -1,7 +1,7 @@
 import { Request } from "express";
 import fs from "fs";
 import sharp from "sharp";
-import { BASE_URL } from "./secrets";
+import { Image } from "../types";
 
 class ImageHandler {
   // Process and save the images
@@ -37,10 +37,10 @@ class ImageHandler {
   };
 
   // Delete images
-  static remove = async (data: any) => {
+  static remove = async (data: Image) => {
     try {
       // Get the data
-      const { thumbnail, cover } = data.rows[0];
+      const { thumbnail, cover } = data;
 
       // Delete the images
       fs.unlinkSync(`./storage/${thumbnail}`);
@@ -48,14 +48,6 @@ class ImageHandler {
     } catch (e) {
       console.log("Error deleting images", e);
     }
-  };
-
-  // Return the full path for the images
-  static urlify = async (data: any) => {
-    data.thumbnail = BASE_URL + data.thumbnail;
-    data.cover = BASE_URL + data.cover;
-
-    return data;
   };
 }
 

@@ -68,4 +68,18 @@ describe("Test Images CRUD", () => {
     const result = await retrieve(res.body.id);
     expect(result.id).toEqual(res.body.id);
   });
+
+  test("Test Update Endpoint", async () => {
+    const pic = await testImage();
+
+    // Get the id of an image
+    const { id } = await retrieve();
+
+    // Update
+    res = await request.patch(`/${id}`).attach("image", pic, "3.png");
+    expect(res.status).toBe(200);
+    expect(res.body.cover).toContain("3.png");
+    expect(res.body).toHaveProperty("thumbnail");
+    expect(res.body).toHaveProperty("id");
+  });
 });

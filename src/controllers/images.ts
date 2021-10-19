@@ -4,7 +4,7 @@ import { ImageHandler } from "../utils";
 import { pool } from "../../db";
 import { QueryResult } from "pg";
 import { BASE_URL } from "../utils/secrets";
-import { Query } from "../types";
+import { Image, Query } from "../types";
 
 // Get all images
 export const list = async (req: Request, res: Response) => {
@@ -16,7 +16,7 @@ export const list = async (req: Request, res: Response) => {
     const offset = (page - 1) * limit;
 
     // Get all images and manipulate cover and thumbnail
-    const results: QueryResult = await pool.query(
+    const results: QueryResult<Image> = await pool.query(
       `SELECT *,
        CONCAT($1 :: VARCHAR,cover) AS cover,
        CONCAT($1,thumbnail) AS thumbnail
@@ -37,7 +37,7 @@ export const list = async (req: Request, res: Response) => {
 export const retrieve = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const image = await pool.query(
+    const image: QueryResult<Image> = await pool.query(
       `SELECT *,
        CONCAT($1 :: VARCHAR,cover) AS cover,
        CONCAT($1,thumbnail) AS thumbnail
@@ -70,7 +70,7 @@ export const create = async (req: Request, res: Response) => {
     const { cover, thumbnail } = processed!;
 
     // Save to DB and return the values after concatenation
-    const results = await pool.query(
+    const results: QueryResult<Image> = await pool.query(
       `INSERT INTO images(id, cover, thumbnail) 
        VALUES ($1, $2, $3) RETURNING *, 
        CONCAT($4 :: VARCHAR,cover) AS cover,
@@ -112,7 +112,7 @@ export const update = async (req: Request, res: Response) => {
     const { cover, thumbnail } = processed!;
 
     // Update, Save to DB, Return results after concatenation
-    const results = await pool.query(
+    const results: QueryResult<Image> = await pool.query(
       `UPDATE images SET cover = $1, thumbnail = $2 
        WHERE id = $3 RETURNING *, 
        CONCAT($4 :: VARCHAR,cover) AS cover,

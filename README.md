@@ -25,6 +25,7 @@ a list of all the available commands
 - **npm run build** : compile to js.
 - **npm run migrate** : creates the images table.
 - **npm start** : start the server after compiling to js.
+- **npm run test**: run all test suits.
 
 **PS**: the migrate command also removes all rows from the db table this was added to avoid any issues that stem from saving images on heroku.
 

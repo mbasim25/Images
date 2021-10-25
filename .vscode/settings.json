@@ -2,6 +2,11 @@
     "cSpell.words": [
         "jsxdev",
         "originalname",
+        "PGDATABASE",
+        "PGHOST",
+        "PGPASSWORD",
+        "PGPORT",
+        "PGUSER",
         "urlify",
         "VARCHAR"
     ]

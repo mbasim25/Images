@@ -1,13 +1,18 @@
 import { Pool } from "pg";
-import { secrets } from "../src/utils/";
+import {
+  DATABASE_SSL,
+  DATABASE_URL as connectionString,
+  DB_CONFIG as config,
+} from "../src/utils/secrets";
 
 // DB connection variables
-const connectionString = secrets.DATABASE_URL;
-const ssl = secrets.DATABASE_SSL;
+const ssl = DATABASE_SSL;
+
+const connection = connectionString ? { connectionString } : { ...config };
 
 // Options to be passed to the pool
 const options = {
-  connectionString,
+  ...connection,
   ssl: { rejectUnauthorized: false },
 };
 

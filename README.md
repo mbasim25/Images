@@ -14,10 +14,19 @@ A small service that processes images into different sizes and performs extra CR
 - [Postman Collection]
 - [Heroku]
 
-# How to run the app
+# Initializing
 - Start by downloading or cloning the project. 
 - Add the env variables as shown in the .env_example. 
 - Run **npm i** to install all the necessary dependencies.
+
+# Running the app
+### 1. docker-compose :
+  - Delete the DATABASE_URL from the .env file.
+  - Run **npm run dev** inside the terminal.
+
+### 2. Without docker-compose :
+  - Run **npm run migrate** inside the terminal.
+  - Run **npm run dev** inside the terminal
 
 # Commands 
 a list of all the available commands

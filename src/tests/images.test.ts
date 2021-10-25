@@ -7,7 +7,7 @@ describe("Test Images CRUD", () => {
   const request = baseRequest(app);
   let res: Response;
 
-  // Fetch images or image
+  // Fetch image(s)
   const retrieve = async (id?: string) => {
     res = await request.get(id ? `/${id}` : "/");
 
@@ -25,7 +25,7 @@ describe("Test Images CRUD", () => {
   beforeEach(async () => {
     const pic = await testImage();
 
-    // image 1
+    // create an image
     await request.post("/create").attach("image", pic, "1.png");
   });
 
@@ -34,9 +34,8 @@ describe("Test Images CRUD", () => {
   });
 
   test("Test Retrieve Endpoint", async () => {
-    // Get all images
-    const results = await request.get("/");
-    const { id } = results.body[0];
+    // Get the id of an image
+    const { id } = await retrieve();
 
     // Get an image by id
     const res = await request.get(`/${id}`);
@@ -45,7 +44,6 @@ describe("Test Images CRUD", () => {
     expect(res.body).toHaveProperty("id");
     expect(res.body).toHaveProperty("cover");
     expect(res.body).toHaveProperty("thumbnail");
-    expect(res.body.cover).toContain(".png");
   });
 
   test("Test List Endpoint", async () => {
@@ -67,10 +65,6 @@ describe("Test Images CRUD", () => {
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty("cover");
     expect(res.body).toHaveProperty("thumbnail");
-
-    // Fetch the image
-    const result = await retrieve(res.body.id);
-    expect(result.id).toEqual(res.body.id);
   });
 
   test("Test Update Endpoint", async () => {
@@ -95,6 +89,7 @@ describe("Test Images CRUD", () => {
     res = await request.delete(`/${id}`);
     expect(res.status).toBe(204);
 
+    // Check that the image was deleted
     const result = await request.get(`/${id}`);
     expect(result.status).toEqual(404);
   });

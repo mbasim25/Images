@@ -18,6 +18,10 @@ describe("Test Images CRUD", () => {
     return value;
   };
 
+  beforeAll(async () => {
+    pool.query(`TRUNCATE TABLE images;`);
+  });
+
   beforeEach(async () => {
     const pic = await testImage();
 

@@ -22,7 +22,7 @@ A small service that processes images into different sizes and performs extra CR
 # Running the app
 ### 1. docker-compose :
   - Delete the DATABASE_URL from the .env file.
-  - Run **npm run dev** inside the terminal.
+  - Run **docker-compose up** inside the terminal.
 
 ### 2. Without docker-compose :
   - Run **npm run migrate** inside the terminal.

@@ -5,9 +5,11 @@ import {
   DB_CONFIG as config,
 } from "../src/utils/secrets";
 
-// DB connection variables
+// DB ssl
 const ssl = DATABASE_SSL;
 
+// DB connection string for heroku or config for running
+// the pg image inside docker-compose
 const connection = connectionString ? { connectionString } : { ...config };
 
 // Options to be passed to the pool

@@ -1,0 +1,8 @@
+node_modules
+.vscode
+pgdata
+storage
+.env_example
+.gitignore
+Procfile
+README.md

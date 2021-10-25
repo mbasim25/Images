@@ -5,6 +5,12 @@
 ###compiling folder###
 dist
 
+###vscode settings###
+.vscode
+
+###postgres data folder###
+pgdata
+
 ### storage folder ###
 storage
 

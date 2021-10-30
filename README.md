@@ -17,14 +17,14 @@ A small service that processes images into different sizes and performs extra CR
 # Initializing
 - Start by downloading or cloning the project. 
 - Add the env variables as shown in the .env_example. 
-- Run **npm i** to install all the necessary dependencies.
 
 # Running the app
 ### 1. docker-compose :
   - Delete the DATABASE_URL from the .env file.
-  - Run **npm run dev** inside the terminal.
+  - Run **docker-compose up** inside the terminal.
 
 ### 2. Without docker-compose :
+  - Run **npm i** to install all the necessary dependencies.
   - Run **npm run migrate** inside the terminal.
   - Run **npm run dev** inside the terminal
 

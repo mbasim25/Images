@@ -6,11 +6,11 @@
     "npm": "7.19.x"
   },
   "scripts": {
-    "start": "node dist/src/app.js",
+    "start": "node dist/src/server.js",
     "build": "tsc",
     "deploy": "git add . && git commit -m Heroku && git push heroku master",
     "prestart": "node dist/db/migrate.js",
-    "dev": "nodemon -L src/app.ts",
+    "dev": "nodemon -L src/server.ts",
     "migrate": "npx ts-node db/migrate.ts",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "test": "jest -i --forceExit"

@@ -5,7 +5,7 @@ dotenv.config({
 });
 
 // Fetch important data from .env file
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.NODE_ENV == "test" ? 4000 : process.env.PORT || 8080;
 const DATABASE_URL = process.env.DATABASE_URL;
 const DATABASE_SSL = process.env.DATABASE_SSL;
 const BASE_URL = process.env.BASE_URL;

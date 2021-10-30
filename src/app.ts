@@ -26,9 +26,4 @@ app.use(router);
 // Error handler
 app.use(errorHandler);
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`listening on http://localhost:${PORT}`);
-});
-
 export default app;
